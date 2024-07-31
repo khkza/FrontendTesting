@@ -20,7 +20,7 @@
               <br />
             </div>
 
-            <!-- Region Selection Dropdown -->
+            <!-- Township Selection Dropdown -->
             <div class="s">
               <div class="flex gap-4">
                 <label for="township_id" class="label">Township:</label>
@@ -46,96 +46,99 @@
                   </button>
                 </div>
               </div>
+              <br />
             </div>
-            <br />
           </div>
-        </div>
 
-        <!-- Credit Subject Filters -->
-        <div class="credit-subjects">
-          <label>
-            <input type="radio" v-model="selectedCreditFilter" value="all" />
-            All
-          </label>
-          <label>
-            <input type="radio" v-model="selectedCreditFilter" value="none" />
-            None
-          </label>
-          <label>
-            <input type="radio" v-model="selectedCreditFilter" value="one" />
-            1 D
-          </label>
-          <label>
-            <input type="radio" v-model="selectedCreditFilter" value="two" />
-            2 D
-          </label>
-          <label>
-            <input type="radio" v-model="selectedCreditFilter" value="three" />
-            3 D
-          </label>
-          <label>
-            <input type="radio" v-model="selectedCreditFilter" value="four" />
-            4 D
-          </label>
-          <label>
-            <input type="radio" v-model="selectedCreditFilter" value="five" />
-            5 D
-          </label>
-          <label>
-            <input type="radio" v-model="selectedCreditFilter" value="six" />
-            6 D
-          </label>
+          <!-- Credit Subject Filters -->
+          <div class="credit-subjects">
+            <label>
+              <input type="radio" v-model="selectedCreditFilter" value="all" />
+              All
+            </label>
+            <label>
+              <input type="radio" v-model="selectedCreditFilter" value="none" />
+              None
+            </label>
+            <label>
+              <input type="radio" v-model="selectedCreditFilter" value="one" />
+              1 D
+            </label>
+            <label>
+              <input type="radio" v-model="selectedCreditFilter" value="two" />
+              2 D
+            </label>
+            <label>
+              <input
+                type="radio"
+                v-model="selectedCreditFilter"
+                value="three"
+              />
+              3 D
+            </label>
+            <label>
+              <input type="radio" v-model="selectedCreditFilter" value="four" />
+              4 D
+            </label>
+            <label>
+              <input type="radio" v-model="selectedCreditFilter" value="five" />
+              5 D
+            </label>
+            <label>
+              <input type="radio" v-model="selectedCreditFilter" value="six" />
+              6 D
+            </label>
+          </div>
         </div>
 
         <!-- Display Selected Township -->
-        <div class="tab">
-          <div v-if="!selectedTownship" class="no-township-selected">
-            <p>Select a township to view results.</p>
-          </div>
+        <div v-if="!selectedTownship" class="no-township-selected">
+          <p>Select a township to view results.</p>
+        </div>
 
-          <!-- Display Students -->
-          <div v-if="filteredResults.length > 0" class="results">
-            <h3>Students in {{ selectedTownshipName }} Result:</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>Roll No</th>
-                  <th>Student Name</th>
-                  <th>Pass Or Fail</th>
-                  <th>Credit Subjects</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="student in paginatedResults" :key="student.id">
-                  <td>{{ student.roll_no }}</td>
-                  <td>{{ student.student_name }}</td>
+        <!-- Display Students -->
+        <div v-if="filteredResults.length > 0" class="results">
+          <h3>Students in {{ selectedTownshipName }} Result:</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Roll No</th>
+                <th>Student Name</th>
+                <th>Pass Or Fail</th>
+                <th>Credit Subjects</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="student in paginatedResults" :key="student.id">
+                <td>{{ student.roll_no }}</td>
+                <td>{{ student.student_name }}</td>
 
-                  <td
-                    :class="{
-                      pass: calculatePassOrFail(student) === 'Pass',
-                      fail: calculatePassOrFail(student) === 'Fail',
-                    }"
-                  >
-                    {{ calculatePassOrFail(student) }}
-                  </td>
-                  <td>
-                    {{ formatCreditSubjects(calculateCreditSubjects(student)) }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <!-- Pagination Controls -->
-            <div class="pagination">
-              <button @click="prevPage" :disabled="currentPage === 1">
-                Previous
-              </button>
-              <span>Page {{ currentPage }} of {{ totalPages }}</span>
-              <button @click="nextPage" :disabled="currentPage === totalPages">
-                Next
-              </button>
-            </div>
+                <td
+                  :class="{
+                    pass: calculatePassOrFail(student) === 'Pass',
+                    fail: calculatePassOrFail(student) === 'Fail',
+                  }"
+                >
+                  {{ calculatePassOrFail(student) }}
+                </td>
+                <td>
+                  {{ formatCreditSubjects(calculateCreditSubjects(student)) }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Pagination Controls -->
+          <div class="pagination">
+            <button @click="prevPage" :disabled="currentPage === 1">
+              Previous
+            </button>
+            <span>Page {{ currentPage }} of {{ totalPages }}</span>
+            <button @click="nextPage" :disabled="currentPage === totalPages">
+              Next
+            </button>
           </div>
         </div>
+
         <div
           v-if="selectedTownship && filteredResults.length === 0"
           class="no-results"
@@ -151,7 +154,6 @@
     </footer>
   </Navbar>
 </template>
-
 <script setup>
 import { ref, watchEffect, computed } from "vue";
 import axios from "axios";
@@ -375,7 +377,7 @@ function prevPage() {
 // Function to handle refreshing data
 async function handleRefresh() {
   if (!selectedTownship.value) {
-    // If no region is selected, do not perform refresh
+    // If no township is selected, do not perform refresh
     return;
   }
 
@@ -384,7 +386,7 @@ async function handleRefresh() {
     allResults.value = [];
     filteredResults.value = [];
     students.value = [];
-    selectedTownship.value = ""; // Clear selected region
+    selectedTownship.value = ""; // Clear selected township
 
     // Optionally hide refresh button here
     // No need to explicitly hide button; the v-if in template will handle it
@@ -501,10 +503,7 @@ async function handleRefresh() {
 .pagination span {
   margin: 0 10px;
 }
-.tab {
-  width: 40%;
-  margin-left: 3%;
-}
+
 .no-township-selected,
 .no-results {
   margin-top: 20px;
