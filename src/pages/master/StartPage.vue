@@ -5,7 +5,7 @@
         <div class="h-screen flex justify-center items-start mt-20">
           <div class="px-[10%] text-green-200 text-center textColor">
             <h1 class="text-6xl font-serif mb-10">
-              A Good Education Is A Foundation For Better Future
+              A Good Education Is A Foundation Forr Better Future
             </h1>
             <p class="text-xl leading-loose">
               Our free Online Results Service is the quickest and easiest way to
