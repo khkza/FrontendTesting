@@ -4,7 +4,7 @@
       <div class="px-[10%] text-green-200 text-center">
         <h1 class="text-3xl text-blue-400 font-serif mb-15">
           Check your exam result<br />
-          <span class="text-4xl text-blue-600"> with one click install</span>
+          <span class="text-4xl text-blue-600"> with one click</span>
         </h1>
       </div>
       <!-- Form Container -->
